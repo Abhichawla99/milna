@@ -157,43 +157,37 @@ interface Message {
     timestamp: Date;
 }
 
-// Memoized message component for better performance
+// Simple message component
 const MessageBubble = memo(({ message }: { message: Message }) => (
     <div
         className={cn(
-            "flex gap-3 mb-4",
+            "flex gap-3",
             message.sender === 'user' ? 'justify-end' : 'justify-start'
         )}
     >
         {message.sender === 'ai' && (
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
-                <Bot className="w-4 h-4 text-white" />
+            <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+                <Bot className="w-3 h-3 text-white" />
             </div>
         )}
         
         <div
             className={cn(
-                "max-w-[80%] rounded-2xl px-4 py-3 min-h-[44px] flex flex-col justify-center",
+                "max-w-[80%] rounded-lg px-3 py-2",
                 message.sender === 'user'
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white ml-auto'
-                    : 'bg-white/10 backdrop-blur-sm text-white mr-auto'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-100 text-gray-900'
             )}
         >
             {message.sender === 'ai' && (
-                <div className="text-black font-medium text-xs mb-1">Milna</div>
+                <div className="text-xs font-medium mb-1 text-gray-600">Milna</div>
             )}
-            <p className="text-sm leading-relaxed">{message.content}</p>
-            <p className={cn(
-                "text-xs mt-2",
-                message.sender === 'user' ? 'text-blue-100' : 'text-white/60'
-            )}>
-                {message.timestamp.toLocaleTimeString()}
-            </p>
+            <p className="text-sm">{message.content}</p>
         </div>
         
         {message.sender === 'user' && (
-            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                <User className="w-4 h-4 text-gray-600" />
+            <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
+                <User className="w-3 h-3 text-gray-600" />
             </div>
         )}
     </div>
@@ -201,21 +195,21 @@ const MessageBubble = memo(({ message }: { message: Message }) => (
 
 MessageBubble.displayName = 'MessageBubble';
 
-// Memoized typing indicator
+// Simple typing indicator
 const TypingIndicator = memo(() => (
-    <div className="flex gap-3 justify-start mb-4">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
-            <Bot className="w-4 h-4 text-white" />
+    <div className="flex gap-3 justify-start">
+        <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+            <Bot className="w-3 h-3 text-white" />
         </div>
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 min-h-[44px] flex flex-col justify-center">
-            <div className="text-black font-medium text-xs mb-1">Milna</div>
-            <div className="flex items-center gap-2 text-sm text-white/80">
+        <div className="bg-gray-100 rounded-lg px-3 py-2">
+            <div className="text-xs font-medium mb-1 text-gray-600">Milna</div>
+            <div className="flex items-center gap-1 text-sm text-gray-600">
                 <span>typing</span>
                 <div className="flex space-x-1">
                     {[0, 1, 2].map((i) => (
                         <div
                             key={i}
-                            className="w-2 h-2 bg-white/60 rounded-full animate-bounce"
+                            className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
                             style={{ animationDelay: `${i * 0.1}s` }}
                         />
                     ))}
@@ -235,7 +229,6 @@ export function MilnaAIChat() {
     const [activeSuggestion, setActiveSuggestion] = useState<number>(-1);
     const [showCommandPalette, setShowCommandPalette] = useState(false);
     const [recentCommand, setRecentCommand] = useState<string | null>(null);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const { textareaRef, adjustHeight } = useAutoResizeTextarea({
         minHeight: 60,
         maxHeight: 200,
@@ -326,16 +319,7 @@ export function MilnaAIChat() {
         }
     }, [value]);
 
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
-        };
 
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-        };
-    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -544,64 +528,33 @@ export function MilnaAIChat() {
     return (
         <div className="w-full max-w-4xl mx-auto px-4 py-8">
             <div className="relative">
-                {/* Background effects */}
-                <div className="absolute inset-0 w-full h-full overflow-hidden rounded-2xl">
-                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-500/10 rounded-full mix-blend-normal filter blur-[128px] animate-pulse" />
-                    <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full mix-blend-normal filter blur-[128px] animate-pulse delay-700" />
-                    <div className="absolute top-1/4 right-1/3 w-64 h-64 bg-fuchsia-500/10 rounded-full mix-blend-normal filter blur-[96px] animate-pulse delay-1000" />
-                </div>
+                {/* Simple background */}
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-900 to-purple-900 rounded-2xl" />
 
-                <motion.div 
-                    className="relative z-10 space-y-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                >
+                <div className="space-y-6">
                     <div className="text-center space-y-3">
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2, duration: 0.5 }}
-                            className="inline-block"
-                        >
-                            <h2 className="text-2xl font-medium tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white/90 to-white/40 pb-1">
+                        <div className="inline-block">
+                            <h2 className="text-2xl font-medium text-white pb-1">
                                 Chat with Milna
                             </h2>
-                            <motion.div 
-                                className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                                initial={{ width: 0, opacity: 0 }}
-                                animate={{ width: "100%", opacity: 1 }}
-                                transition={{ delay: 0.5, duration: 0.8 }}
-                            />
-                        </motion.div>
-                        <motion.p 
-                            className="text-sm text-white/40"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.3 }}
-                        >
+                            <div className="h-px bg-white/20" />
+                        </div>
+                        <p className="text-sm text-white/60">
                             Ask about Milna AI agents, embedding, or try our commands below
-                        </motion.p>
+                        </p>
                     </div>
 
-                    {/* Messages Area */}
-                    <motion.div 
-                        className="relative backdrop-blur-2xl bg-white/[0.02] rounded-2xl border border-white/[0.05] shadow-2xl min-h-[400px] max-h-[600px] overflow-hidden"
-                        initial={{ scale: 0.98 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.1 }}
-                    >
+                    {/* Messages Area - Simplified */}
+                    <div className="bg-white/10 rounded-lg border border-white/20 min-h-[400px] max-h-[600px] overflow-hidden">
                         {/* Messages */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[500px] scroll-smooth">
+                        <div className="h-[500px] overflow-y-auto p-4">
                             {messages.length === 0 ? (
                                 <div className="text-center py-12">
-                                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/[0.05] flex items-center justify-center">
-                                        <Bot className="w-8 h-8 text-white/60" />
-                                    </div>
-                                    <p className="text-white/40 text-sm">Start a conversation with Milna</p>
+                                    <Bot className="w-8 h-8 text-white/60 mx-auto mb-4" />
+                                    <p className="text-white/60 text-sm">Start a conversation with Milna</p>
                                 </div>
                             ) : (
-                                <div className="space-y-4">
+                                <div className="space-y-3">
                                     {messages.map((message) => (
                                         <MessageBubble key={message.id} message={message} />
                                     ))}
@@ -612,67 +565,23 @@ export function MilnaAIChat() {
                             <div ref={messagesEndRef} />
                         </div>
 
-                        {/* Input Area */}
-                        <div className="border-t border-white/[0.05] p-4">
-                            <AnimatePresence>
-                                {showCommandPalette && (
-                                    <motion.div 
-                                        ref={commandPaletteRef}
-                                        className="absolute left-4 right-4 bottom-full mb-2 backdrop-blur-xl bg-black/90 rounded-lg z-50 shadow-lg border border-white/10 overflow-hidden"
-                                        initial={{ opacity: 0, y: 5 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: 5 }}
-                                        transition={{ duration: 0.15 }}
-                                    >
-                                        <div className="py-1 bg-black/95">
-                                            {commandSuggestions.map((suggestion, index) => (
-                                                <motion.div
-                                                    key={suggestion.prefix}
-                                                    className={cn(
-                                                        "flex items-center gap-2 px-3 py-2 text-xs transition-colors cursor-pointer",
-                                                        activeSuggestion === index 
-                                                            ? "bg-white/10 text-white" 
-                                                            : "text-white/70 hover:bg-white/5"
-                                                    )}
-                                                    onClick={() => selectCommandSuggestion(index)}
-                                                    initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    transition={{ delay: index * 0.03 }}
-                                                >
-                                                    <div className="w-5 h-5 flex items-center justify-center text-white/60">
-                                                        {suggestion.icon}
-                                                    </div>
-                                                    <div className="font-medium">{suggestion.label}</div>
-                                                    <div className="text-white/40 text-xs ml-1">
-                                                        {suggestion.prefix}
-                                                    </div>
-                                                </motion.div>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-
+                        {/* Input Area - Simplified */}
+                        <div className="border-t border-white/20 p-4">
                             <div className="flex items-center gap-3">
-                                <motion.button
+                                <button
                                     type="button"
                                     data-command-button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setShowCommandPalette(prev => !prev);
                                     }}
-                                    whileTap={{ scale: 0.94 }}
                                     className={cn(
-                                        "p-2 text-white/40 hover:text-white/90 rounded-lg transition-colors relative group",
-                                        showCommandPalette && "bg-white/10 text-white/90"
+                                        "p-2 text-white/60 hover:text-white rounded-lg transition-colors",
+                                        showCommandPalette && "bg-white/10 text-white"
                                     )}
                                 >
                                     <Command className="w-4 h-4" />
-                                    <motion.span
-                                        className="absolute inset-0 bg-white/[0.05] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                                        layoutId="button-highlight"
-                                    />
-                                </motion.button>
+                                </button>
 
                                 <div className="flex-1">
                                     <Textarea
@@ -704,18 +613,16 @@ export function MilnaAIChat() {
                                     />
                                 </div>
                                 
-                                <motion.button
+                                <button
                                     type="button"
                                     onClick={handleSendMessage}
-                                    whileHover={{ scale: 1.01 }}
-                                    whileTap={{ scale: 0.98 }}
                                     disabled={isTyping || !value.trim()}
                                     className={cn(
-                                        "px-4 py-2 rounded-lg text-sm font-medium transition-all",
+                                        "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
                                         "flex items-center gap-2",
                                         value.trim()
-                                            ? "bg-gradient-to-r from-violet-500 to-indigo-500 text-white shadow-lg shadow-violet-500/25"
-                                            : "bg-white/[0.05] text-white/40"
+                                            ? "bg-blue-500 text-white hover:bg-blue-600"
+                                            : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                     )}
                                 >
                                     {isTyping ? (
@@ -740,84 +647,28 @@ export function MilnaAIChat() {
                                             <span>Send</span>
                                         </>
                                     )}
-                                </motion.button>
+                                </button>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    {/* Quick Actions */}
+                    {/* Quick Actions - Simplified */}
                     <div className="flex flex-wrap items-center justify-center gap-2">
                         {commandSuggestions.map((suggestion, index) => (
-                            <motion.button
+                            <button
                                 key={suggestion.prefix}
                                 onClick={() => selectCommandSuggestion(index)}
-                                className="flex items-center gap-2 px-3 py-2 bg-white/[0.02] hover:bg-white/[0.05] rounded-lg text-sm text-white/60 hover:text-white/90 transition-all relative group"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
+                                className="flex items-center gap-2 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm text-white/80 hover:text-white transition-colors"
                             >
                                 {suggestion.icon}
                                 <span>{suggestion.label}</span>
-                                <motion.div
-                                    className="absolute inset-0 border border-white/[0.05] rounded-lg"
-                                    initial={false}
-                                    animate={{
-                                        opacity: [0, 1],
-                                        scale: [0.98, 1],
-                                    }}
-                                    transition={{
-                                        duration: 0.3,
-                                        ease: "easeOut",
-                                    }}
-                                />
-                            </motion.button>
+                            </button>
                         ))}
                     </div>
-                </motion.div>
+                </div>
             </div>
-
-            {inputFocused && (
-                <motion.div 
-                    className="fixed w-[50rem] h-[50rem] rounded-full pointer-events-none z-0 opacity-[0.02] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-indigo-500 blur-[96px]"
-                    animate={{
-                        x: mousePosition.x - 400,
-                        y: mousePosition.y - 400,
-                    }}
-                    transition={{
-                        type: "spring",
-                        damping: 25,
-                        stiffness: 150,
-                        mass: 0.5,
-                    }}
-                />
-            )}
         </div>
     );
 }
 
-function TypingDots() {
-    return (
-        <div className="flex items-center ml-1">
-            {[1, 2, 3].map((dot) => (
-                <motion.div
-                    key={dot}
-                    className="w-1.5 h-1.5 bg-white/90 rounded-full mx-0.5"
-                    initial={{ opacity: 0.3 }}
-                    animate={{ 
-                        opacity: [0.3, 0.9, 0.3],
-                        scale: [0.85, 1.1, 0.85]
-                    }}
-                    transition={{
-                        duration: 1.2,
-                        repeat: Infinity,
-                        delay: dot * 0.15,
-                        ease: "easeInOut",
-                    }}
-                    style={{
-                        boxShadow: "0 0 4px rgba(255, 255, 255, 0.3)"
-                    }}
-                />
-            ))}
-        </div>
-    );
-}
+
