@@ -241,8 +241,8 @@ export function MilnaAIChat() {
     const agentConfig = {
         agentId: 'demo-agent',
         agentName: 'Milna',
-        supabaseUrl: 'https://fapojywavurprfbmeznj.supabase.co',
-        webhookProxyUrl: 'https://fapojywavurprfbmeznj.supabase.co/functions/v1/webhook-proxy'
+        supabaseUrl: import.meta.env.VITE_SUPABASE_URL || 'https://fapojywavurprfbmeznj.supabase.co',
+        webhookProxyUrl: `${import.meta.env.VITE_SUPABASE_URL || 'https://fapojywavurprfbmeznj.supabase.co'}/functions/v1/webhook-proxy`
     };
 
     const commandSuggestions: CommandSuggestion[] = [
@@ -409,13 +409,14 @@ export function MilnaAIChat() {
         } catch (error) {
             console.error('❌ Message send failed:', error);
             
-            // Fallback: Try direct webhook
-            try {
-                const directResponse = await fetch('https://abhixchawla.app.n8n.cloud/webhook/49ccefa1-44e4-4117-9cac-00e147f79cc9/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(webhookPayload)
-                });
+                    // Fallback: Try direct webhook
+        try {
+            const fallbackWebhook = import.meta.env.VITE_N8N_CHAT_WEBHOOK || 'https://abhixchawla.app.n8n.cloud/webhook/49ccefa1-44e4-4117-9cac-00e147f79cc9/chat';
+            const directResponse = await fetch(fallbackWebhook, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(webhookPayload)
+            });
                 
                 if (directResponse.ok) {
                     const directData = await directResponse.text();

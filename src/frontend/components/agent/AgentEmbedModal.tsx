@@ -158,8 +158,8 @@ const AgentEmbedModal = ({ agent, isOpen, onClose }: AgentEmbedModalProps) => {
         agentTone: '${agentTone.replace(/'/g, "\\'")}',
         agentInstructions: '${agentInstructions.replace(/'/g, "\\'")}',
         agentCreatedAt: '${agent.created_at}',
-        supabaseUrl: 'https://fapojywavurprfbmeznj.supabase.co',
-        webhookProxyUrl: 'https://fapojywavurprfbmeznj.supabase.co/functions/v1/webhook-proxy'
+        supabaseUrl: '${import.meta.env.VITE_SUPABASE_URL || "https://fapojywavurprfbmeznj.supabase.co"}',
+        webhookProxyUrl: '${import.meta.env.VITE_SUPABASE_URL || "https://fapojywavurprfbmeznj.supabase.co"}/functions/v1/webhook-proxy'
       };
       
       var agentIdClean = '${agentIdClean}';

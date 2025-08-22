@@ -52,8 +52,8 @@ export function MilnaChatBar() {
     agentTone: 'friendly, subtle humour and confident',
     agentInstructions: 'make sure to keep collecting emails whenevr appropriate - when the questions are too complex , offer to book a demo so they can see it in action',
     agentCreatedAt: '2025-08-18T03:06:44.28221+00:00',
-    supabaseUrl: 'https://fapojywavurprfbmeznj.supabase.co',
-    webhookProxyUrl: 'https://fapojywavurprfbmeznj.supabase.co/functions/v1/webhook-proxy'
+    supabaseUrl: import.meta.env.VITE_SUPABASE_URL || 'https://fapojywavurprfbmeznj.supabase.co',
+    webhookProxyUrl: `${import.meta.env.VITE_SUPABASE_URL || 'https://fapojywavurprfbmeznj.supabase.co'}/functions/v1/webhook-proxy`
   };
 
   // Initialize visitor and session IDs, and conversation tracking
@@ -229,7 +229,8 @@ export function MilnaChatBar() {
       
       // Fallback to direct n8n webhook
       try {
-        const directResponse = await fetch('https://abhixchawla.app.n8n.cloud/webhook/49ccefa1-44e4-4117-9cac-00e147f79cc9/chat', {
+        const fallbackWebhook = import.meta.env.VITE_N8N_CHAT_WEBHOOK || 'https://abhixchawla.app.n8n.cloud/webhook/49ccefa1-44e4-4117-9cac-00e147f79cc9/chat';
+        const directResponse = await fetch(fallbackWebhook, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(webhookPayload)
