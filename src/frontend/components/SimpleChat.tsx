@@ -119,7 +119,7 @@ const SimpleChat = ({ agentUrl, agentName = "AI Assistant", className }: SimpleC
                 <div
                   key={message.id}
                   className={cn(
-                    "flex gap-3",
+                    "flex gap-3 opacity-100",
                     message.sender === 'user' ? 'justify-end' : 'justify-start'
                   )}
                 >
