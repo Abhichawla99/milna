@@ -103,14 +103,9 @@ const SimpleChat = ({ agentUrl, agentName = "AI Assistant", className }: SimpleC
         <CardContent className="p-0">
           {/* Header */}
           <div className="bg-blue-500 p-4 text-white">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                <Bot className="w-4 h-4" />
-              </div>
-              <div>
-                <h3 className="font-semibold">{agentName}</h3>
-                <p className="text-sm text-blue-100">AI Assistant</p>
-              </div>
+            <div>
+              <h3 className="font-semibold">{agentName}</h3>
+              <p className="text-sm text-blue-100">AI Assistant</p>
             </div>
           </div>
 
@@ -119,7 +114,6 @@ const SimpleChat = ({ agentUrl, agentName = "AI Assistant", className }: SimpleC
             <div className="space-y-3">
               {messages.length === 0 && (
                 <div className="text-center py-8">
-                  <Bot className="w-8 h-8 text-gray-400 mx-auto mb-3" />
                   <h3 className="font-medium text-gray-900 mb-1">Welcome to {agentName}!</h3>
                   <p className="text-sm text-gray-500">I'm here to help you with any questions or assistance you need.</p>
                 </div>
@@ -129,16 +123,10 @@ const SimpleChat = ({ agentUrl, agentName = "AI Assistant", className }: SimpleC
                 <div
                   key={message.id}
                   className={cn(
-                    "flex gap-3 opacity-100",
+                    "flex opacity-100",
                     message.sender === 'user' ? 'justify-end' : 'justify-start'
                   )}
                 >
-                  {message.sender === 'agent' && (
-                    <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                      <Bot className="w-3 h-3 text-white" />
-                    </div>
-                  )}
-                  
                   <div
                     className={cn(
                       "max-w-[80%] rounded-lg px-3 py-2",
@@ -148,26 +136,17 @@ const SimpleChat = ({ agentUrl, agentName = "AI Assistant", className }: SimpleC
                     )}
                   >
                     {message.sender === 'agent' && (
-                      <div className="text-xs font-medium mb-1 text-gray-600">Milna</div>
+                      <div className="text-xs font-medium mb-1 text-black">Milna</div>
                     )}
                     <p className="text-sm">{message.content}</p>
                   </div>
-                  
-                  {message.sender === 'user' && (
-                    <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
-                      <User className="w-3 h-3 text-gray-600" />
-                    </div>
-                  )}
                 </div>
               ))}
 
               {isTyping && (
-                <div className="flex gap-3 justify-start">
-                  <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-3 h-3 text-white" />
-                  </div>
+                <div className="flex justify-start">
                   <div className="bg-gray-100 rounded-lg px-3 py-2">
-                    <div className="text-xs font-medium mb-1 text-gray-600">Milna</div>
+                    <div className="text-xs font-medium mb-1 text-black">Milna</div>
                     <div className="flex items-center gap-1 text-sm text-gray-600">
                       <span>typing</span>
                       <div className="flex space-x-1">
