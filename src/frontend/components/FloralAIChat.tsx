@@ -159,10 +159,7 @@ interface Message {
 
 // Memoized message component for better performance
 const MessageBubble = memo(({ message }: { message: Message }) => (
-    <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.2 }}
+    <div
         className={cn(
             "flex gap-3 mb-4",
             message.sender === 'user' ? 'justify-end' : 'justify-start'
@@ -176,7 +173,7 @@ const MessageBubble = memo(({ message }: { message: Message }) => (
         
         <div
             className={cn(
-                "max-w-[80%] rounded-2xl px-4 py-3",
+                "max-w-[80%] rounded-2xl px-4 py-3 min-h-[44px] flex flex-col justify-center",
                 message.sender === 'user'
                     ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white ml-auto'
                     : 'bg-white/10 backdrop-blur-sm text-white mr-auto'
@@ -199,22 +196,18 @@ const MessageBubble = memo(({ message }: { message: Message }) => (
                 <User className="w-4 h-4 text-gray-600" />
             </div>
         )}
-    </motion.div>
+    </div>
 ));
 
 MessageBubble.displayName = 'MessageBubble';
 
 // Memoized typing indicator
 const TypingIndicator = memo(() => (
-    <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex gap-3 justify-start mb-4"
-    >
+    <div className="flex gap-3 justify-start mb-4">
         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
             <Bot className="w-4 h-4 text-white" />
         </div>
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3">
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 min-h-[44px] flex flex-col justify-center">
             <div className="text-black font-medium text-xs mb-1">Milna</div>
             <div className="flex items-center gap-2 text-sm text-white/80">
                 <span>typing</span>
@@ -229,7 +222,7 @@ const TypingIndicator = memo(() => (
                 </div>
             </div>
         </div>
-    </motion.div>
+    </div>
 ));
 
 TypingIndicator.displayName = 'TypingIndicator';
@@ -298,14 +291,22 @@ export function MilnaAIChat() {
         },
     ];
 
-    // Scroll to bottom when new messages arrive
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
+    // Scroll to bottom when new messages arrive - optimized
+    const scrollToBottom = useCallback(() => {
+        if (messagesEndRef.current) {
+            const messagesContainer = messagesEndRef.current.closest('.overflow-y-auto');
+            if (messagesContainer) {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+    }, []);
 
     useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
+        // Use requestAnimationFrame to ensure DOM is updated before scrolling
+        requestAnimationFrame(() => {
+            scrollToBottom();
+        });
+    }, [messages, scrollToBottom]);
 
     useEffect(() => {
         if (value.startsWith('/') && !value.includes(' ')) {
@@ -591,7 +592,7 @@ export function MilnaAIChat() {
                         transition={{ delay: 0.1 }}
                     >
                         {/* Messages */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[500px]">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[500px] scroll-smooth">
                             {messages.length === 0 ? (
                                 <div className="text-center py-12">
                                     <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/[0.05] flex items-center justify-center">
@@ -600,12 +601,13 @@ export function MilnaAIChat() {
                                     <p className="text-white/40 text-sm">Start a conversation with Milna</p>
                                 </div>
                             ) : (
-                                messages.map((message) => (
-                                    <MessageBubble key={message.id} message={message} />
-                                ))
+                                <div className="space-y-4">
+                                    {messages.map((message) => (
+                                        <MessageBubble key={message.id} message={message} />
+                                    ))}
+                                    {isTyping && <TypingIndicator />}
+                                </div>
                             )}
-                            
-                            {isTyping && <TypingIndicator />}
                             
                             <div ref={messagesEndRef} />
                         </div>

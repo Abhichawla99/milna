@@ -115,7 +115,10 @@ const EmbeddedAgent = ({ agentUrl, agentName = "AI Assistant", className }: Embe
   }, []);
 
   useEffect(() => {
-    scrollToBottom();
+    // Use requestAnimationFrame to ensure DOM is updated before scrolling
+    requestAnimationFrame(() => {
+      scrollToBottom();
+    });
   }, [messages, scrollToBottom]);
 
   // Focus input when expanded - optimized
