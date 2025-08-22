@@ -118,13 +118,13 @@ const EmbeddedAgent = ({ agentUrl, agentName = "AI Assistant", className }: Embe
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  // Focus input when expanded
+  // Focus input when expanded - optimized
   useEffect(() => {
     if (isExpanded && inputRef.current) {
-      // Use setTimeout to ensure DOM is ready
-      setTimeout(() => {
+      // Use requestAnimationFrame for better performance
+      requestAnimationFrame(() => {
         inputRef.current?.focus();
-      }, 100);
+      });
     }
   }, [isExpanded]);
 
@@ -154,7 +154,7 @@ const EmbeddedAgent = ({ agentUrl, agentName = "AI Assistant", className }: Embe
         })
       });
 
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Removed artificial delay for better performance
 
       const agentMessage: Message = {
         id: (Date.now() + 1).toString(),

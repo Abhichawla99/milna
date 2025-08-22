@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/frontend/components/ui/button";
 import { Input } from "@/frontend/components/ui/input";
@@ -54,14 +54,16 @@ const EmbeddedAgentStandalone = ({
     }
   }, [messages]);
 
-  // Focus input when expanded
+  // Focus input when expanded - optimized
   useEffect(() => {
     if (isExpanded && inputRef.current) {
-      inputRef.current.focus();
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+      });
     }
   }, [isExpanded]);
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || isTyping) return;
 
     const userMessage: Message = {
@@ -89,8 +91,7 @@ const EmbeddedAgentStandalone = ({
         })
       });
 
-      // Simulate response delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Removed artificial delay for better performance
 
       const agentMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -113,9 +114,9 @@ const EmbeddedAgentStandalone = ({
       setIsTyping(false);
       setIsLoading(false);
     }
-  };
+  }, [inputMessage, isTyping, agentUrl]);
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = useCallback((e: React.KeyboardEvent) => {
     // Prevent space key from triggering page navigation
     if (e.key === ' ') {
       e.stopPropagation();
@@ -125,16 +126,16 @@ const EmbeddedAgentStandalone = ({
       e.preventDefault();
       handleSendMessage();
     }
-  };
+  }, [handleSendMessage]);
 
-  const handleExpand = () => {
+  const handleExpand = useCallback(() => {
     setIsExpanded(true);
-  };
+  }, []);
 
-  const handleCollapse = () => {
+  const handleCollapse = useCallback(() => {
     setIsExpanded(false);
     setMessages([]);
-  };
+  }, []);
 
   const positionClasses = {
     'bottom-right': 'bottom-4 right-4',

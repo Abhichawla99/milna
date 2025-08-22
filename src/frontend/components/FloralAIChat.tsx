@@ -44,16 +44,21 @@ function useAutoResizeTextarea({
                 return;
             }
 
-            textarea.style.height = `${minHeight}px`;
-            const newHeight = Math.max(
-                minHeight,
-                Math.min(
-                    textarea.scrollHeight,
-                    maxHeight ?? Number.POSITIVE_INFINITY
-                )
-            );
+            // Use requestAnimationFrame for better performance
+            requestAnimationFrame(() => {
+                if (!textarea) return;
+                
+                textarea.style.height = `${minHeight}px`;
+                const newHeight = Math.max(
+                    minHeight,
+                    Math.min(
+                        textarea.scrollHeight,
+                        maxHeight ?? Number.POSITIVE_INFINITY
+                    )
+                );
 
-            textarea.style.height = `${newHeight}px`;
+                textarea.style.height = `${newHeight}px`;
+            });
         },
         [minHeight, maxHeight]
     );
@@ -65,10 +70,19 @@ function useAutoResizeTextarea({
         }
     }, [minHeight]);
 
+    // Debounced resize handler for better performance
     useEffect(() => {
-        const handleResize = () => adjustHeight();
+        let timeoutId: NodeJS.Timeout;
+        const handleResize = () => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => adjustHeight(), 100);
+        };
+        
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+            clearTimeout(timeoutId);
+        };
     }, [adjustHeight]);
 
     return { textareaRef, adjustHeight };
@@ -142,6 +156,83 @@ interface Message {
     sender: 'user' | 'ai';
     timestamp: Date;
 }
+
+// Memoized message component for better performance
+const MessageBubble = memo(({ message }: { message: Message }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
+        className={cn(
+            "flex gap-3 mb-4",
+            message.sender === 'user' ? 'justify-end' : 'justify-start'
+        )}
+    >
+        {message.sender === 'ai' && (
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+                <Bot className="w-4 h-4 text-white" />
+            </div>
+        )}
+        
+        <div
+            className={cn(
+                "max-w-[80%] rounded-2xl px-4 py-3",
+                message.sender === 'user'
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white ml-auto'
+                    : 'bg-white/10 backdrop-blur-sm text-white mr-auto'
+            )}
+        >
+            {message.sender === 'ai' && (
+                <div className="text-black font-medium text-xs mb-1">Milna</div>
+            )}
+            <p className="text-sm leading-relaxed">{message.content}</p>
+            <p className={cn(
+                "text-xs mt-2",
+                message.sender === 'user' ? 'text-blue-100' : 'text-white/60'
+            )}>
+                {message.timestamp.toLocaleTimeString()}
+            </p>
+        </div>
+        
+        {message.sender === 'user' && (
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                <User className="w-4 h-4 text-gray-600" />
+            </div>
+        )}
+    </motion.div>
+));
+
+MessageBubble.displayName = 'MessageBubble';
+
+// Memoized typing indicator
+const TypingIndicator = memo(() => (
+    <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex gap-3 justify-start mb-4"
+    >
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+            <Bot className="w-4 h-4 text-white" />
+        </div>
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3">
+            <div className="text-black font-medium text-xs mb-1">Milna</div>
+            <div className="flex items-center gap-2 text-sm text-white/80">
+                <span>typing</span>
+                <div className="flex space-x-1">
+                    {[0, 1, 2].map((i) => (
+                        <div
+                            key={i}
+                            className="w-2 h-2 bg-white/60 rounded-full animate-bounce"
+                            style={{ animationDelay: `${i * 0.1}s` }}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    </motion.div>
+));
+
+TypingIndicator.displayName = 'TypingIndicator';
 
 export function MilnaAIChat() {
     const [value, setValue] = useState("");
@@ -392,53 +483,53 @@ export function MilnaAIChat() {
         }
     };
 
-    const handleSendMessage = async () => {
-        if (value.trim()) {
-            const userMessage = value.trim();
+    const handleSendMessage = useCallback(async () => {
+        if (!value.trim() || isTyping) return;
+        
+        const userMessage = value.trim();
+        
+        // Add user message immediately
+        const userMsg: Message = {
+            id: Date.now().toString(),
+            content: userMessage,
+            sender: 'user',
+            timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, userMsg]);
+        setValue("");
+        adjustHeight(true);
+        setIsTyping(true);
+
+        try {
+            // Send to backend and get response
+            const aiResponse = await sendMessageToBackend(userMessage);
             
-            // Add user message immediately
-            const userMsg: Message = {
-                id: Date.now().toString(),
-                content: userMessage,
-                sender: 'user',
+            // Add AI response
+            const aiMsg: Message = {
+                id: (Date.now() + 1).toString(),
+                content: aiResponse,
+                sender: 'ai',
                 timestamp: new Date()
             };
             
-            setMessages(prev => [...prev, userMsg]);
-            setValue("");
-            adjustHeight(true);
-            setIsTyping(true);
-
-            try {
-                // Send to backend and get response
-                const aiResponse = await sendMessageToBackend(userMessage);
-                
-                // Add AI response
-                const aiMsg: Message = {
-                    id: (Date.now() + 1).toString(),
-                    content: aiResponse,
-                    sender: 'ai',
-                    timestamp: new Date()
-                };
-                
-                setMessages(prev => [...prev, aiMsg]);
-            } catch (error) {
-                console.error('Error sending message:', error);
-                
-                // Add error message
-                const errorMsg: Message = {
-                    id: (Date.now() + 1).toString(),
-                    content: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
-                    sender: 'ai',
-                    timestamp: new Date()
-                };
-                
-                setMessages(prev => [...prev, errorMsg]);
-            } finally {
-                setIsTyping(false);
-            }
+            setMessages(prev => [...prev, aiMsg]);
+        } catch (error) {
+            console.error('Error sending message:', error);
+            
+            // Add error message
+            const errorMsg: Message = {
+                id: (Date.now() + 1).toString(),
+                content: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
+                sender: 'ai',
+                timestamp: new Date()
+            };
+            
+            setMessages(prev => [...prev, errorMsg]);
+        } finally {
+            setIsTyping(false);
         }
-    };
+    }, [value, isTyping, adjustHeight]);
 
     const selectCommandSuggestion = (index: number) => {
         const selectedCommand = commandSuggestions[index];
@@ -510,72 +601,11 @@ export function MilnaAIChat() {
                                 </div>
                             ) : (
                                 messages.map((message) => (
-                                    <motion.div
-                                        key={message.id}
-                                        className={cn(
-                                            "flex gap-3",
-                                            message.sender === 'user' ? 'justify-end' : 'justify-start'
-                                        )}
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        {message.sender === 'ai' && (
-                                            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 flex items-center justify-center flex-shrink-0">
-                                                <Bot className="w-4 h-4 text-white" />
-                                            </div>
-                                        )}
-                                        
-                                        <div className={cn(
-                                            "max-w-[80%] rounded-2xl px-4 py-3 text-sm",
-                                            message.sender === 'user' 
-                                                ? "bg-gradient-to-r from-violet-500 to-indigo-500 text-white ml-auto" 
-                                                : "bg-white/[0.05] text-white/90 border border-white/[0.05] mr-auto"
-                                        )}>
-                                            {message.sender === 'ai' && (
-                                                <div className="text-black font-medium text-xs mb-1">Milna</div>
-                                            )}
-                                            {message.content}
-                                        </div>
-                                        
-                                        {message.sender === 'user' && (
-                                            <div className="w-8 h-8 rounded-full bg-white/[0.1] flex items-center justify-center flex-shrink-0">
-                                                <User className="w-4 h-4 text-white/60" />
-                                            </div>
-                                        )}
-                                    </motion.div>
+                                    <MessageBubble key={message.id} message={message} />
                                 ))
                             )}
                             
-                            {isTyping && (
-                                <motion.div
-                                    className="flex gap-3 justify-start"
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                >
-                                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 flex items-center justify-center flex-shrink-0">
-                                        <Bot className="w-4 h-4 text-white" />
-                                    </div>
-                                    <div className="bg-white/[0.05] rounded-2xl px-4 py-3 border border-white/[0.05]">
-                                        <div className="text-black font-medium text-xs mb-1">Milna</div>
-                                        <div className="flex items-center gap-2 text-sm text-white/70">
-                                            <span>typing</span>
-                                            <div className="flex items-center">
-                                                {[1, 2, 3].map((dot) => (
-                                                    <div
-                                                        key={dot}
-                                                        className="w-1 h-1 bg-white rounded-full mx-0.5 animate-pulse"
-                                                        style={{
-                                                            animationDelay: `${dot * 0.15}s`,
-                                                            animationDuration: '1.2s'
-                                                        }}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            )}
+                            {isTyping && <TypingIndicator />}
                             
                             <div ref={messagesEndRef} />
                         </div>
