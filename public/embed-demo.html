@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floral AI Agent - Embed Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 4rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .content h2 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .feature h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .feature p {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .cta {
+            text-align: center;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin-top: 3rem;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #3b82f6;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🤖 Floral AI Agent</h1>
+            <p>Embed your AI assistant on any website with just one line of code</p>
+        </div>
+        
+        <div class="content">
+            <h2>✨ Super Easy Integration</h2>
+            <p>Add your AI agent to any website in seconds. No complex setup, no dependencies, just pure JavaScript magic.</p>
+            
+            <div class="code-block">
+&lt;script src="https://yourdomain.com/embed-agent.js"&gt;&lt;/script&gt;
+            </div>
+            
+            <p>That's it! The AI chat widget will automatically appear on your website. Users can click the chat button to start a conversation with your AI assistant.</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>🚀 Lightning Fast</h3>
+                <p>Lightweight script that loads instantly and doesn't slow down your website. Optimized for performance and user experience.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🎨 Beautiful Design</h3>
+                <p>Modern, responsive design that looks great on any device. Customizable colors and themes to match your brand.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🔧 Easy Customization</h3>
+                <p>Simple configuration options for colors, position, and branding. No coding required to make it your own.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>📱 Mobile Friendly</h3>
+                <p>Perfect experience on desktop, tablet, and mobile devices. Responsive design that adapts to any screen size.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🔒 Secure & Private</h3>
+                <p>All conversations are secure and private. No data is stored on your website, everything goes directly to your AI agent.</p>
+            </div>
+            
+            <div class="feature">
+                <h3>⚡ Real-time Chat</h3>
+                <p>Instant messaging with typing indicators and smooth animations. Feels like chatting with a real person.</p>
+            </div>
+        </div>
+        
+        <div class="content">
+            <h2>🔧 Configuration Options</h2>
+            <p>Customize your AI agent widget with these simple options:</p>
+            
+            <div class="code-block">
+// Configuration options
+const config = {
+  agentUrl: 'https://your-agent-url.com',
+  agentName: 'Your AI Assistant',
+  position: 'bottom-right', // bottom-right, bottom-left, top-right, top-left
+  theme: 'light', // light, dark
+  primaryColor: '#3b82f6', // Blue
+  secondaryColor: '#8b5cf6' // Purple
+};
+            </div>
+            
+            <p>Just edit the configuration in the embed script to match your brand and preferences.</p>
+        </div>
+        
+        <div class="cta">
+            <h2>Ready to Get Started?</h2>
+            <p>Add your AI agent to your website today and provide instant support to your customers.</p>
+            <a href="#" class="btn">Get Embed Code</a>
+        </div>
+    </div>
+    
+    <!-- The AI agent widget will appear here -->
+    <script src="embed-agent.js"></script>
+</body>
+</html>

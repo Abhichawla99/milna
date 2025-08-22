@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floral AI Search Bar Demo - Complete Backend Integration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .content {
+            background: white;
+            margin: -50px auto 0;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 1000px;
+        }
+        
+        .section {
+            padding: 3rem 2rem;
+        }
+        
+        .section h2 {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .section p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .demo-section {
+            background: #f8fafc;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .feature h3 {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .feature p {
+            color: #6b7280;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🔍 Floral AI Search Bar</h1>
+            <p>The most advanced AI search bar with complete backend integration. Copy, paste, and it works immediately!</p>
+            
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                Live Demo - Search Bar Active Below
+            </div>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div class="demo-section">
+            <div class="demo-container">
+                <h2>🎯 Try the AI Search Bar</h2>
+                <p>This search bar is fully functional with complete backend integration. Ask any question and get instant AI responses!</p>
+                
+                <!-- PaperKites AI Search Bar - Complete Backend Integration -->
+                <!-- PaperKites AI Complete AI Search Bar -->
+                <div id="ai-search-75d661d4-36fe-4021-a208-1ec047c060ee" style="
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  max-width: 720px;
+                  margin: 0 auto;
+                ">
+                  <form 
+                    id="ai-search-form-75d661d4-36fe-4021-a208-1ec047c060ee" 
+                    style="position: relative; display: flex; gap: 8px; align-items: center;"
+                    onsubmit="return handleAISearch_75d661d4_36fe_4021_a208_1ec047c060ee(event)"
+                  >
+                    <input
+                      id="ai-search-input-75d661d4-36fe-4021-a208-1ec047c060ee"
+                      type="text"
+                      placeholder="Ask PaperKites AI anything..."
+                      style="
+                        flex: 1;
+                        height: 48px;
+                        border: 1px solid #e5e7eb;
+                        border-radius: 9999px;
+                        padding: 0 16px;
+                        font-size: 16px;
+                        outline: none;
+                        transition: border-color 0.2s, box-shadow 0.2s;
+                        background: white;
+                      "
+                      onfocus="this.style.boxShadow='0 0 0 4px rgba(79,70,229,0.1)'; this.style.borderColor='#6366f1';"
+                      onblur="this.style.boxShadow='none'; this.style.borderColor='#e5e7eb';"
+                    />
+                    <button
+                      type="submit"
+                      id="ai-search-submit-75d661d4-36fe-4021-a208-1ec047c060ee"
+                      style="
+                        height: 48px;
+                        border: none;
+                        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+                        color: #fff;
+                        border-radius: 9999px;
+                        padding: 0 18px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                      "
+                      onmouseover="this.style.transform='scale(1.02)'"
+                      onmouseout="this.style.transform='scale(1)'"
+                    >
+                      Ask AI
+                    </button>
+                  </form>
+
+                  <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+                    <span style="
+                      font-size: 12px;
+                      color: #6b7280;
+                      display: flex;
+                      align-items: center;
+                      gap: 4px;
+                    ">
+                      <span style="width: 6px; height: 6px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite;"></span>
+                      Powered by Floral AI
+                    </span>
+                  </div>
+
+                  <div 
+                    id="ai-search-results-75d661d4-36fe-4021-a208-1ec047c060ee" 
+                    style="
+                      margin-top: 16px;
+                      display: none;
+                      border: 1px solid #e5e7eb;
+                      border-radius: 12px;
+                      padding: 16px;
+                      background: white;
+                      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                      max-height: 400px;
+                      overflow-y: auto;
+                    "
+                  >
+                    <div 
+                      id="ai-search-status-75d661d4-36fe-4021-a208-1ec047c060ee" 
+                      style="font-size: 14px; color: #6b7280; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;"
+                    >
+                      <div style="width: 16px; height: 16px; border: 2px solid #e5e7eb; border-top: 2px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                      Thinking...
+                    </div>
+                    <div 
+                      id="ai-search-list-75d661d4-36fe-4021-a208-1ec047c060ee" 
+                      style="display: flex; flex-direction: column; gap: 12px;"
+                    ></div>
+                  </div>
+
+                  <style>
+                    @keyframes spin {
+                      0% { transform: rotate(0deg); }
+                      100% { transform: rotate(360deg); }
+                    }
+                    
+                    @keyframes pulse {
+                      0%, 100% { opacity: 1; }
+                      50% { opacity: 0.5; }
+                    }
+                    
+                    #ai-search-input-75d661d4-36fe-4021-a208-1ec047c060ee.fade {
+                      opacity: 0.6;
+                      transition: opacity 0.3s ease;
+                    }
+                    
+                    #ai-search-75d661d4-36fe-4021-a208-1ec047c060ee * {
+                      box-sizing: border-box;
+                    }
+                  </style>
+
+                  <script>
+                    (function() {
+                      // Agent Configuration - Pre-configured with your backend
+                      var agentConfig = {
+                        agentId: '75d661d4-36fe-4021-a208-1ec047c060ee',
+                        agentName: 'PaperKites AI',
+                        supabaseUrl: 'https://fapojywavurprfbmeznj.supabase.co',
+                        webhookProxyUrl: 'https://fapojywavurprfbmeznj.supabase.co/functions/v1/webhook-proxy'
+                      };
+                      
+                      var agentIdClean = '75d661d4_36fe_4021_a208_1ec047c060ee';
+                      
+                      // Initialize user session
+                      var visitorId = localStorage.getItem('floral_visitor_id');
+                      if (!visitorId) {
+                        visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substring(2, 15);
+                        localStorage.setItem('floral_visitor_id', visitorId);
+                      }
+                      
+                      var sessionToken = localStorage.getItem('floral_session_token');
+                      
+                      var input = document.getElementById('ai-search-input-' + agentConfig.agentId);
+                      var results = document.getElementById('ai-search-results-' + agentConfig.agentId);
+                      var status = document.getElementById('ai-search-status-' + agentConfig.agentId);
+                      var list = document.getElementById('ai-search-list-' + agentConfig.agentId);
+
+                      // Rotating placeholders
+                      var placeholders = [
+                        "Ask PaperKites AI anything...",
+                        "Get instant answers...",
+                        "Chat with AI assistant...",
+                        "How can I help you today?"
+                      ];
+                      var placeholderIndex = 0;
+                      
+                      function rotatePlaceholder() {
+                        if (document.activeElement !== input) {
+                          input.classList.add('fade');
+                          setTimeout(function() {
+                            placeholderIndex = (placeholderIndex + 1) % placeholders.length;
+                            input.placeholder = placeholders[placeholderIndex];
+                            input.classList.remove('fade');
+                          }, 300);
+                        }
+                      }
+                      
+                      setTimeout(function() {
+                        rotatePlaceholder();
+                        setInterval(rotatePlaceholder, 4000);
+                      }, 3000);
+
+                      // Send message to backend with complete integration
+                      async function sendMessage(message) {
+                        const webhookPayload = {
+                          agent_id: agentConfig.agentId,
+                          agent_uuid: agentConfig.agentId,
+                          user_id: visitorId,
+                          message: message,
+                          agent_name: agentConfig.agentName,
+                          timestamp: new Date().toISOString(),
+                          source: 'embedded_search_bar',
+                          visitor_id: visitorId
+                        };
+
+                        try {
+                          console.log('📨 Sending message to backend:', message);
+                          
+                          // Send via Supabase webhook-proxy for complete backend integration
+                          const response = await fetch(agentConfig.webhookProxyUrl, {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Authorization': sessionToken ? `Bearer ${sessionToken}` : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhcG9qeXdhdnVycHJmYm1lem5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ5NTY2OTIsImV4cCI6MjA3MDUzMjY5Mn0.t970PnmFpE_-JwpLzCCqly-Buj6o2KaK9dtzXtABXf0'
+                            },
+                            body: JSON.stringify(webhookPayload)
+                          });
+
+                          if (!response.ok) {
+                            throw new Error(`Webhook failed: ${response.status}`);
+                          }
+
+                          const data = await response.text();
+                          console.log('✅ Message sent successfully');
+                          
+                          // Parse response
+                          let agentResponse = "Thank you for your message! I'm here to help you with any questions or assistance you need.";
+                          
+                          if (data) {
+                            try {
+                              const jsonData = JSON.parse(data);
+                              if (jsonData.response && typeof jsonData.response === 'string') {
+                                agentResponse = jsonData.response;
+                              } else if (jsonData.message && typeof jsonData.message === 'string') {
+                                agentResponse = jsonData.message;
+                              } else if (jsonData.output && typeof jsonData.output === 'string') {
+                                agentResponse = jsonData.output;
+                              } else if (jsonData.reply && typeof jsonData.reply === 'string') {
+                                agentResponse = jsonData.reply;
+                              } else if (jsonData.text && typeof jsonData.text === 'string') {
+                                agentResponse = jsonData.text;
+                              } else if (typeof jsonData === 'string') {
+                                agentResponse = jsonData;
+                              }
+                            } catch (e) {
+                              agentResponse = data;
+                            }
+                          }
+                          
+                          return agentResponse;
+                          
+                        } catch (error) {
+                          console.error('❌ Message send failed:', error);
+                          
+                          // Fallback: Try direct webhook
+                          try {
+                            const directResponse = await fetch('https://abhixchawla.app.n8n.cloud/webhook/49ccefa1-44e4-4117-9cac-00e147f79cc9/chat', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify(webhookPayload)
+                            });
+                            
+                            if (directResponse.ok) {
+                              const directData = await directResponse.text();
+                              return directData || "Thank you for your message! I'm here to help you.";
+                            }
+                          } catch (fallbackError) {
+                            console.error('❌ Fallback webhook also failed:', fallbackError);
+                          }
+                          
+                          return "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.";
+                        }
+                      }
+
+                      // Handle search submission
+                      window['handleAISearch_' + agentIdClean] = async function(event) {
+                        event.preventDefault();
+                        var query = input.value.trim();
+                        if (!query) return;
+
+                        // Show results container
+                        results.style.display = 'block';
+                        status.style.display = 'flex';
+                        status.innerHTML = '<div style="width: 16px; height: 16px; border: 2px solid #e5e7eb; border-top: 2px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite;"></div>Thinking...';
+                        
+                        // Add user query to results
+                        var userItem = document.createElement('div');
+                        userItem.style.cssText = 'background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; font-size: 14px; color: #374151;';
+                        userItem.innerHTML = '<strong>You:</strong> ' + query;
+                        list.appendChild(userItem);
+                        
+                        // Clear input
+                        input.value = '';
+                        
+                        try {
+                          // Send message to backend
+                          const response = await sendMessage(query);
+                          
+                          // Hide loading
+                          status.style.display = 'none';
+                          
+                          // Add AI response
+                          var agentResponse = document.createElement('div');
+                          agentResponse.style.cssText = 'background: #eef2ff; border: 1px solid #e0e7ff; border-radius: 8px; padding: 12px; font-size: 14px; color: #1f2937;';
+                          agentResponse.innerHTML = '<strong>PaperKites AI:</strong> ' + response;
+                          list.appendChild(agentResponse);
+                          
+                          // Scroll to show the new response
+                          results.scrollTop = results.scrollHeight;
+                          
+                        } catch (error) {
+                          console.error('❌ Error:', error);
+                          status.style.display = 'none';
+                          
+                          var errorItem = document.createElement('div');
+                          errorItem.style.cssText = 'background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 12px; font-size: 14px; color: #991b1b;';
+                          errorItem.innerHTML = '<strong>Error:</strong> I apologize, but I\'m having trouble processing your request right now. Please try again in a moment.';
+                          list.appendChild(errorItem);
+                        }
+                      };
+
+                      console.log('🚀 AI Search Bar initialized for agent:', agentConfig.agentId);
+                      console.log('📊 Configuration:', {
+                        agentId: agentConfig.agentId,
+                        agentName: agentConfig.agentName,
+                        visitorId: visitorId,
+                        hasSession: !!sessionToken
+                      });
+                    })();
+                  </script>
+                </div>
+                
+                <p style="margin-top: 24px; font-size: 14px; color: #6b7280;">
+                    Try typing a question to see the complete backend integration in action!
+                </p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 What Makes This Special?</h2>
+            <p>Unlike other search bars that require complex setup, this one includes everything pre-configured:</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>🔗 Complete Backend Integration</h3>
+                    <p>Pre-configured with your Supabase backend, webhook routing, and n8n workflows. No API keys or setup required.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>📊 Message Tracking</h3>
+                    <p>Every message is tracked for analytics, billing, and usage monitoring. All data flows through your backend systems.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>👤 User Management</h3>
+                    <p>Automatic visitor ID generation, session handling, and user tracking across visits.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>🎨 Professional Design</h3>
+                    <p>Beautiful, responsive design that works on all devices with smooth animations and transitions.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>⚡ Real AI Responses</h3>
+                    <p>Connected to your n8n workflows and AI agents for intelligent, contextual responses.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>🛡️ Production Ready</h3>
+                    <p>Error handling, fallback systems, and monitoring built-in for reliable operation.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" style="background: #f8fafc;">
+            <h2>📋 How to Use</h2>
+            <p>Getting this search bar on your website is incredibly simple:</p>
+            
+            <div style="background: white; border-radius: 12px; padding: 2rem; margin: 2rem 0; border: 1px solid #e5e7eb;">
+                <h3 style="color: #1f2937; margin-bottom: 1rem;">Step 1: Copy the Code</h3>
+                <p style="color: #6b7280; margin-bottom: 1rem;">Each agent gets a unique embed code that includes their specific configuration.</p>
+                
+                <h3 style="color: #1f2937; margin-bottom: 1rem;">Step 2: Paste on Your Website</h3>
+                <p style="color: #6b7280; margin-bottom: 1rem;">Add the code to your hero section, homepage, or anywhere you want the search bar to appear.</p>
+                
+                <h3 style="color: #1f2937; margin-bottom: 1rem;">Step 3: That's It!</h3>
+                <p style="color: #6b7280;">Your search bar is now live with complete backend integration, message tracking, and AI responses.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 Perfect For</h2>
+            <p>This search bar is ideal for:</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 1.5rem;">
+                    <h4 style="color: #0369a1; margin-bottom: 0.5rem;">🏠 Hero Sections</h4>
+                    <p style="color: #0c4a6e; margin: 0; font-size: 0.9rem;">Engage visitors immediately with AI-powered search</p>
+                </div>
+                
+                <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 1.5rem;">
+                    <h4 style="color: #0369a1; margin-bottom: 0.5rem;">📚 Knowledge Bases</h4>
+                    <p style="color: #0c4a6e; margin: 0; font-size: 0.9rem;">Help users find information quickly</p>
+                </div>
+                
+                <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 1.5rem;">
+                    <h4 style="color: #0369a1; margin-bottom: 0.5rem;">🛒 E-commerce Sites</h4>
+                    <p style="color: #0c4a6e; margin: 0; font-size: 0.9rem;">Product search and customer support</p>
+                </div>
+                
+                <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 1.5rem;">
+                    <h4 style="color: #0369a1; margin-bottom: 0.5rem;">💼 Business Websites</h4>
+                    <p style="color: #0c4a6e; margin: 0; font-size: 0.9rem;">Lead generation and customer engagement</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Log when the demo is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎉 Floral AI Search Bar Demo loaded!');
+            console.log('🔍 The search bar above is fully functional with complete backend integration');
+            console.log('📊 All messages are tracked and sent to your Supabase backend');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floral AI Complete Widget Demo - One Line Integration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .integration-demo {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #333;
+        }
+        
+        .code-block .comment {
+            color: #6a9955;
+        }
+        
+        .code-block .tag {
+            color: #569cd6;
+        }
+        
+        .code-block .attribute {
+            color: #9cdcfe;
+        }
+        
+        .code-block .string {
+            color: #ce9178;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .content {
+            background: white;
+            margin: -50px auto 0;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 1000px;
+        }
+        
+        .section {
+            padding: 3rem 2rem;
+        }
+        
+        .section h2 {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .section p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .feature h3 {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .feature p {
+            color: #6b7280;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        
+        .cta {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #3b82f6;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .integration-demo {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🌸 Floral AI Complete Widget</h1>
+            <p>The most advanced AI chat widget with complete backend integration. Just one line of code and you're ready to go!</p>
+            
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                Live Demo - Widget Active Below
+            </div>
+            
+            <div class="integration-demo">
+                <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">🚀 One Line Integration</h3>
+                <p style="margin-bottom: 1rem; opacity: 0.9;">Add this single line to any website and get a fully functional AI chat widget:</p>
+                
+                <div class="code-block">
+<span class="comment">&lt;!-- Add this one line to your website --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attribute">src</span>=<span class="string">"https://yourdomain.com/floral-ai-complete-widget.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+                </div>
+                
+                <p style="margin-top: 1rem; opacity: 0.9;">That's it! <span class="highlight">No configuration required</span> - everything is pre-integrated with your backend.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div class="section">
+            <h2>🎯 What Makes This Special?</h2>
+            <p>Unlike other chat widgets that require complex setup, our complete widget includes everything pre-configured:</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>🔗 Backend Integration</h3>
+                    <p>Pre-configured Supabase connection, webhook routing, and message tracking. No API keys or setup required.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>👤 User Management</h3>
+                    <p>Automatic visitor ID generation, session handling, and user tracking across visits.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>📊 Message Tracking</h3>
+                    <p>Built-in message counting, rate limiting, and usage analytics sent to your dashboard.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>🎨 Beautiful UI</h3>
+                    <p>Professional design that works on all devices with smooth animations and responsive layout.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>⚡ Real AI Responses</h3>
+                    <p>Connected to your n8n workflows and AI agents for intelligent, contextual responses.</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>🛡️ Production Ready</h3>
+                    <p>Error handling, fallback systems, and monitoring built-in for reliable operation.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" style="background: #f8fafc;">
+            <h2>🔧 Technical Features</h2>
+            <p>Advanced functionality that works out of the box:</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <h4 style="color: #1f2937; margin-bottom: 0.5rem;">🚀 Instant Deployment</h4>
+                    <p style="color: #6b7280; margin: 0; font-size: 0.9rem;">Copy one line, paste anywhere, and it works immediately</p>
+                </div>
+                
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <h4 style="color: #1f2937; margin-bottom: 0.5rem;">📱 Mobile Optimized</h4>
+                    <p style="color: #6b7280; margin: 0; font-size: 0.9rem;">Responsive design that works perfectly on all screen sizes</p>
+                </div>
+                
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <h4 style="color: #1f2937; margin-bottom: 0.5rem;">🔄 Auto-Recovery</h4>
+                    <p style="color: #6b7280; margin: 0; font-size: 0.9rem;">Fallback systems ensure the widget always works</p>
+                </div>
+                
+                <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+                    <h4 style="color: #1f2937; margin-bottom: 0.5rem;">⚡ Fast Loading</h4>
+                    <p style="color: #6b7280; margin: 0; font-size: 0.9rem;">Optimized for minimal impact on page load speed</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>💬 Try It Now!</h2>
+            <p>The chat widget is live on this page. Click the blue chat button in the bottom-right corner to test it out!</p>
+            
+            <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 1.5rem; margin: 2rem 0;">
+                <h4 style="color: #0369a1; margin-bottom: 0.5rem;">✨ What You'll Experience:</h4>
+                <ul style="color: #0c4a6e; margin: 0; padding-left: 1.5rem;">
+                    <li>Instant response from AI agent</li>
+                    <li>Professional chat interface</li>
+                    <li>Smooth animations and transitions</li>
+                    <li>Full backend integration working</li>
+                    <li>Message tracking and analytics</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="cta">
+            <h2>🎉 Ready to Get Started?</h2>
+            <p>Add our complete AI chat widget to your website in seconds. No technical knowledge required!</p>
+            
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 1.5rem; margin: 2rem 0;">
+                <div class="code-block" style="background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2);">
+<span class="comment">&lt;!-- Copy this code and paste it before &lt;/body&gt; on your website --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attribute">src</span>=<span class="string">"https://yourdomain.com/floral-ai-complete-widget.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+                </div>
+            </div>
+            
+            <a href="#" class="btn">Get Your Embed Code</a>
+        </div>
+    </div>
+    
+    <!-- 🚀 THE MAGIC HAPPENS HERE - ONE LINE OF CODE! -->
+    <script src="floral-ai-complete-widget.js"></script>
+    
+    <script>
+        // Optional: Log when the widget is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎉 Floral AI Complete Widget Demo loaded!');
+            console.log('✨ The chat widget in the bottom-right corner is fully functional');
+            console.log('🔗 It includes complete backend integration with your Supabase and n8n systems');
+        });
+    </script>
+</body>
+</html>
