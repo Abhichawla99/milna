@@ -60,7 +60,7 @@
 
     "node-fetch": "^3.3.2",
     "react": "^19.1.1",
-    "react-day-picker": "^8.10.1",
+
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.61.1",
     "react-resizable-panels": "^2.1.9",
