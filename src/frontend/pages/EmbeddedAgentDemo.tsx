@@ -1,6 +1,4 @@
-import { motion } from "framer-motion";
-import EmbeddedAgent from "@/frontend/components/EmbeddedAgent";
-import EmbeddedAgentStandalone from "@/frontend/components/EmbeddedAgentStandalone";
+import SimpleChat from "@/frontend/components/SimpleChat";
 
 const EmbeddedAgentDemo = () => {
   return (
@@ -18,12 +16,7 @@ const EmbeddedAgentDemo = () => {
             <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-indigo-400/20 rounded-full blur-xl animate-pulse delay-500" />
             
             {/* Main Content */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="relative z-10"
-            >
+            <div className="relative z-10">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                 Meet Your{" "}
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -52,7 +45,7 @@ const EmbeddedAgentDemo = () => {
                   <span>24/7 Support</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
@@ -60,39 +53,22 @@ const EmbeddedAgentDemo = () => {
       {/* Embedded Agent Section */}
       <div className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-center mb-8"
-          >
+          <div className="text-center mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">
               Start a Conversation
             </h2>
             <p className="text-gray-600">
               Click on the search bar below to begin chatting with your AI assistant
             </p>
-          </motion.div>
+          </div>
           
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <EmbeddedAgent
+          <div>
+            <SimpleChat
               agentUrl="https://ebfbe489-fc0d-489d-b25f-794d5e30a856.lovableproject.com/agent/agent_aa1f9f83_ef1d_4ada_bb7f_b5c9e517e36c"
               agentName="PaperKites AI"
               className="mb-8"
             />
-          </motion.div>
-          
-          {/* Floating Chat Widget */}
-          <EmbeddedAgentStandalone
-            agentUrl="https://ebfbe489-fc0d-489d-b25f-794d5e30a856.lovableproject.com/agent/agent_aa1f9f83_ef1d_4ada_bb7f_b5c9e517e36c"
-            agentName="PaperKites AI"
-            position="bottom-right"
-            theme="light"
-          />
+          </div>
         </div>
       </div>
 

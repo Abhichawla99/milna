@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, useCallback, memo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/frontend/components/ui/button";
 import { Input } from "@/frontend/components/ui/input";
 import { ScrollArea } from "@/frontend/components/ui/scroll-area";
@@ -203,16 +202,9 @@ const EmbeddedAgent = ({ agentUrl, agentName = "AI Assistant", className }: Embe
 
   return (
     <div className={cn("w-full max-w-4xl mx-auto", className)}>
-      <AnimatePresence mode="wait">
-        {!isExpanded ? (
-          // Collapsed State - Simplified
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="relative"
-          >
+      {!isExpanded ? (
+        // Collapsed State - Simplified
+        <div className="relative">
             <Card className="border-2 border-gray-200/50 shadow-lg hover:shadow-xl transition-all duration-200 bg-white/95 backdrop-blur-sm">
               <CardContent className="p-0">
                 <div className="flex items-center gap-3 p-4">
@@ -247,16 +239,10 @@ const EmbeddedAgent = ({ agentUrl, agentName = "AI Assistant", className }: Embe
                 AI Powered
               </Badge>
             </div>
-          </motion.div>
+          </div>
         ) : (
-          // Expanded State - Optimized
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="relative"
-          >
+          // Expanded State - Simplified
+          <div className="relative">
             <Card className="border-2 border-gray-200/50 shadow-2xl bg-white/95 backdrop-blur-sm overflow-hidden">
               {/* Header */}
               <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4 text-white">
@@ -348,9 +334,9 @@ const EmbeddedAgent = ({ agentUrl, agentName = "AI Assistant", className }: Embe
                 </div>
               </div>
             </Card>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 };

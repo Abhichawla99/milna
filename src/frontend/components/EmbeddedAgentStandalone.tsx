@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, useCallback, memo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/frontend/components/ui/button";
 import { Input } from "@/frontend/components/ui/input";
 import { ScrollArea } from "@/frontend/components/ui/scroll-area";
@@ -175,16 +174,9 @@ const EmbeddedAgentStandalone = ({
       positionClasses[position],
       className
     )}>
-      <AnimatePresence>
-        {!isExpanded ? (
-          // Collapsed State - Floating Chat Button
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative"
-          >
+      {!isExpanded ? (
+        // Collapsed State - Floating Chat Button
+        <div className="relative">
             <Button
               onClick={handleExpand}
               size="lg"
@@ -194,27 +186,16 @@ const EmbeddedAgentStandalone = ({
             </Button>
             
             {/* Floating badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
-              className="absolute -top-2 -right-2"
-            >
+            <div className="absolute -top-2 -right-2">
               <Badge className="bg-green-500 text-white border-0 px-2 py-0.5 text-xs font-medium">
                 <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse mr-1" />
                 AI
               </Badge>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         ) : (
           // Expanded State - Full Chat Interface
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="relative"
-          >
+          <div className="relative">
             <Card className={cn(
               "w-80 h-96 border-2 shadow-2xl overflow-hidden",
               themeClasses[theme].card
@@ -261,13 +242,10 @@ const EmbeddedAgentStandalone = ({
                       </motion.div>
                     )}
 
-                    <AnimatePresence>
+                    <div>
                       {messages.map((message, index) => (
-                        <motion.div
+                        <div
                           key={message.id}
-                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{ duration: 0.3, delay: index * 0.1 }}
                           className={cn(
                             "flex gap-2",
                             message.sender === 'user' ? 'justify-end' : 'justify-start'
@@ -304,17 +282,13 @@ const EmbeddedAgentStandalone = ({
                               <User className="w-3 h-3 text-gray-600" />
                             </div>
                           )}
-                        </motion.div>
+                        </div>
                       ))}
-                    </AnimatePresence>
+                    </div>
 
                     {/* Typing indicator */}
                     {isTyping && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex gap-2 justify-start"
-                      >
+                      <div className="flex gap-2 justify-start">
                         <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
                           <Bot className="w-3 h-3 text-white" />
                         </div>
@@ -329,7 +303,7 @@ const EmbeddedAgentStandalone = ({
                             </div>
                           </div>
                         </div>
-                      </motion.div>
+                      </div>
                     )}
                   </div>
                 </ScrollArea>
@@ -375,9 +349,9 @@ const EmbeddedAgentStandalone = ({
                 </div>
               </div>
             </Card>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 };
