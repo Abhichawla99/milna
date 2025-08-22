@@ -76,7 +76,7 @@ const HowItConverts = () => {
           className="text-center"
         >
           {/* Mission Statement */}
-          <div className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/30 dark:via-purple-900/30 dark:to-pink-900/30 rounded-3xl p-12 mb-20 max-w-5xl mx-auto border border-blue-100/50 dark:border-blue-800/30 shadow-xl">
+          <div id="mission" className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/30 dark:via-purple-900/30 dark:to-pink-900/30 rounded-3xl p-12 mb-20 max-w-5xl mx-auto border border-blue-100/50 dark:border-blue-800/30 shadow-xl">
             <div className="flex items-center justify-center mb-6">
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-full mr-4">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

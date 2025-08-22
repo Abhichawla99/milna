@@ -51,6 +51,17 @@ const HeroSection = ({ onGetStartedClick, onLoginClick }: HeroSectionProps) => {
             {/* Navigation */}
             <div className="flex items-center gap-6">
               <button 
+                onClick={() => {
+                  const missionSection = document.getElementById('mission');
+                  if (missionSection) {
+                    missionSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="text-white/90 hover:text-white transition-colors font-medium cursor-pointer"
+              >
+                Our Mission
+              </button>
+              <button 
                 onClick={onLoginClick}
                 className="text-white/90 hover:text-white transition-colors font-medium cursor-pointer"
               >
