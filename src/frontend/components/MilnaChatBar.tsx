@@ -91,11 +91,31 @@ export function MilnaChatBar() {
   }, []);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current) {
+      const messagesContainer = messagesEndRef.current.closest('.overflow-y-auto');
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    // Only scroll if user is near bottom
+    if (messagesEndRef.current) {
+      const messagesContainer = messagesEndRef.current.closest('.overflow-y-auto');
+      if (messagesContainer) {
+        const { scrollTop, scrollHeight, clientHeight } = messagesContainer;
+        const isNearBottom = scrollTop + clientHeight >= scrollHeight - 100;
+        
+        if (isNearBottom) {
+          setTimeout(() => {
+            if (messagesContainer) {
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+          }, 10);
+        }
+      }
+    }
   }, [messages]);
 
   const cleanResponse = (response: string): string => {
@@ -410,11 +430,8 @@ export function MilnaChatBar() {
             >
               <div className="space-y-6">
                 {messages.map((message) => (
-                  <motion.div
+                  <div
                     key={message.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
                     className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
@@ -429,57 +446,27 @@ export function MilnaChatBar() {
                           : '0 4px 15px rgba(0, 0, 0, 0.1)'
                       }}
                     >
-                      <div className="flex items-center gap-3 mb-2">
-                        {message.isUser ? (
-                          <User className="w-4 h-4" />
-                        ) : (
-                          <div className="relative">
-                            <div className="w-4 h-4 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center">
-                              <div className="w-2 h-2 bg-white rounded-full flex items-center justify-center">
-                                <div className="w-1 h-1 bg-pink-500 rounded-full"></div>
-                              </div>
-                            </div>
-                            <div className="absolute -top-0.5 -right-0.5">
-                              <Sparkles className="w-2 h-2 text-yellow-400 animate-pulse" />
-                            </div>
-                          </div>
-                        )}
-                        <span className="text-xs font-semibold text-white/90">
-                          {message.isUser ? 'You' : agentConfig.agentName}
-                        </span>
-                      </div>
+                      {!message.isUser && (
+                        <div className="text-xs font-semibold mb-2 text-black">
+                          {agentConfig.agentName}
+                        </div>
+                      )}
                       <p className="text-sm leading-relaxed">{message.content}</p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
                 
                 {isTyping && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex justify-start"
-                  >
+                  <div className="flex justify-start">
                     <div className="bg-white/90 text-gray-800 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="relative">
-                          <div className="w-4 h-4 rounded-full bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
-                            <div className="w-2 h-2 bg-white rounded-full flex items-center justify-center">
-                              <div className="w-1 h-1 bg-purple-500 rounded-full"></div>
-                            </div>
-                          </div>
-                          <div className="absolute -top-0.5 -right-0.5">
-                            <Sparkles className="w-2 h-2 text-yellow-400 animate-pulse" />
-                          </div>
-                        </div>
-                        <span className="text-xs font-semibold opacity-90">{agentConfig.agentName}</span>
-                      </div>
+                      <div className="text-xs font-semibold mb-2 text-black">{agentConfig.agentName}</div>
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce shadow-sm" />
                         <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce shadow-sm" style={{ animationDelay: '0.1s' }} />
                         <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce shadow-sm" style={{ animationDelay: '0.2s' }} />
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
               </div>
               <div ref={messagesEndRef} />
@@ -568,3 +555,4 @@ export function MilnaChatBar() {
     </div>
   );
 }
+
